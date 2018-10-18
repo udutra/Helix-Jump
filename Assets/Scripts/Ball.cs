@@ -12,7 +12,13 @@ public class Ball : MonoBehaviour {
 		rb = GetComponent<Rigidbody>();
 	}
 	
-	private void OnTriggerEnter(Collider other){
+	private void OnTriggerEnter(Collider other)
+    {
+        if (LevelController.instance.gameOver)
+        {
+            return;
+        }
+
 		if(((1 << other.gameObject.layer) & ground) == 0)
 		{
 			return;
@@ -21,4 +27,10 @@ public class Ball : MonoBehaviour {
 		rb.velocity = Vector3.zero;
 		rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
 	}
+
+    public void GameOver()
+    {
+        rb.velocity = Vector3.zero;
+        rb.useGravity = false;
+    }
 }
